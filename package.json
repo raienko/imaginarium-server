@@ -1,0 +1,31 @@
+{
+  "name": "imaginarium-server",
+  "version": "0.0.1",
+  "description": "Simple server",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node ./src/index",
+    "dev": "nodemon ./src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raienko/imaginarium-server.git"
+  },
+  "keywords": [
+    "imaginarium"
+  ],
+  "author": "raienko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raienko/imaginarium-server/issues"
+  },
+  "homepage": "https://github.com/raienko/imaginarium-server#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "websocket": "^1.0.33"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
