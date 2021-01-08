@@ -1,9 +1,10 @@
-const server = require('./server');
-const websocket = require('./websocket');
-const websocketController = require('./websocketController');
+const api = require('./api');
+const app = require('./core/app');
+const websocket = require('./core/websocket');
+const server = require('./core/server');
+
+api(app, websocket);
 
 const PORT = process.env.PORT || 3000;
-
-websocket.on('request', websocketController);
 
 server.listen(PORT, () => console.log(`Server running on ${PORT}`));
