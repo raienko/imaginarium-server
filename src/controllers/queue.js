@@ -1,3 +1,5 @@
+const queue = [];
+
 const joinQueue = (req, res) => {
   console.log('User joined queue');
   // is already in queue?

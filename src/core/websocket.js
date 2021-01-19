@@ -1,7 +1,7 @@
+const ws = require('websocket');
 const server = require('./server');
-const WebsocketServer = require('websocket').server;
 
-const websocket = new WebsocketServer({
+const websocket = new ws.server({
   httpServer: server,
   autoAcceptConnections: false,
 });

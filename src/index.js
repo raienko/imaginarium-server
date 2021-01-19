@@ -2,9 +2,17 @@ const api = require('./api');
 const app = require('./core/app');
 const websocket = require('./core/websocket');
 const server = require('./core/server');
+const database = require('./core/database');
 
-api(app, websocket);
+database
+  .connect()
+  .then(async () => {
+    api.setupSocketsApi(websocket);
+    api.setupRestApi(app)
 
-const PORT = process.env.PORT || 3000;
-
-server.listen(PORT, () => console.log(`Server running on ${PORT}`));
+    const PORT = process.env.PORT;
+    server.listen(PORT, () => console.log(`Server running on ${PORT}`));
+  })
+  .catch(err => {
+    console.log('Failed to start server: ', err.message);
+  });

@@ -1,11 +1,15 @@
-const games = require('../../database/games');
+const Game = require('../models/Game');
+const { generateID } = require('../utils');
 
-const createGame = (req, res) => {
-  console.log('CREATE GAME!');
-  const params = {};
-  const game = {id: `${Date.now()}`};
-  games.push(game);
-  console.log('Game created');
+const createGame = async (req, res) => {
+  console.log('Creating game!');
+  const params = {
+    id: generateID(),
+    players: ['fake_0'],
+  };
+  const game = new Game(params);
+  await game.save();
+  console.log('Game created!');
   return res.send(game);
 };
 
