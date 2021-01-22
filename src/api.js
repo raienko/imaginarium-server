@@ -1,9 +1,14 @@
 const socketsController = require('./controllers/sockets');
+const coreController = require('./controllers/core');
 const usersController = require('./controllers/users');
 const gamesController = require('./controllers/games');
 const queueController = require('./controllers/queue');
 
 const setupRestApi = (app) => {
+// Core
+
+    app.get('/ping', coreController.ping);
+
 // Users
 
     app.get('/users/:userId', usersController.fetchUser);
