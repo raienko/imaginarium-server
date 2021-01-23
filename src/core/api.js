@@ -1,13 +1,21 @@
-const socketsController = require('./controllers/sockets');
-const coreController = require('./controllers/core');
-const usersController = require('./controllers/users');
-const gamesController = require('./controllers/games');
-const queueController = require('./controllers/queue');
+const socketsController = require('../modules/sockets/controller');
+const authController = require('../modules/auth/controller');
+const systemController = require('../modules/system/controller');
+const usersController = require('../modules/user/controller');
+const gamesController = require('../modules/game/controller');
+const queueController = require('../modules/queue/controller');
 
 const setupRestApi = (app) => {
-// Core
 
-    app.get('/ping', coreController.ping);
+// System
+
+    app.get('/ping', systemController.ping);
+
+// Auth
+
+    app.post('/register', authController.register);
+    app.post('/login', authController.login);
+    app.post('/logout', authController.logout);
 
 // Users
 
@@ -29,7 +37,7 @@ const setupRestApi = (app) => {
 }
 
 const setupSocketsApi = (websocket) => {
-  websocket.on('request', socketsController);
+    websocket.on('request', socketsController);
 }
 
 module.exports = {

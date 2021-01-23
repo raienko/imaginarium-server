@@ -1,5 +1,5 @@
-const Game = require('../models/Game');
-const { generateID } = require('../utils');
+const Game = require('./Game');
+const { generateID } = require('src/utils');
 
 const createGame = async (req, res) => {
   console.log('Creating game!');
@@ -10,6 +10,8 @@ const createGame = async (req, res) => {
   const game = new Game(params);
   await game.save();
   console.log('Game created!');
+  const games = await Game.list();
+  console.log({ games });
   return res.send(game);
 };
 

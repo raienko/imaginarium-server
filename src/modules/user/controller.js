@@ -1,5 +1,3 @@
-const users = [];
-
 const fetchUser = (req, res) => {
   return res.send('User added')
 };

@@ -1,16 +1,16 @@
-const api = require('./api');
+const api = require('./core/api');
 const app = require('./core/app');
 const websocket = require('./core/websocket');
 const server = require('./core/server');
 const database = require('./core/database');
 
+const PORT = process.env.PORT;
+
 database
   .connect()
-  .then(async () => {
+  .then(() => {
     api.setupSocketsApi(websocket);
     api.setupRestApi(app)
-
-    const PORT = process.env.PORT;
     server.listen(PORT, () => console.log(`Server running on ${PORT}`));
   })
   .catch(err => {
