@@ -1,1 +1,1 @@
-[Structure]('./docs/structure.md')
+[Structure](./docs/structure.md)
