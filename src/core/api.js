@@ -13,9 +13,10 @@ const setupRestApi = (app) => {
 
 // Auth
 
-    app.post('/register', authController.register);
-    app.post('/login', authController.login);
-    app.post('/logout', authController.logout);
+    app.post('/auth', authController.register);
+    app.post('/auth/login', authController.login);
+    app.post('/auth/logout', authController.logout);
+    app.delete('/auth', authController.logout);
 
 // Users
 
@@ -31,9 +32,10 @@ const setupRestApi = (app) => {
 
 // Games
 
-    app.post('/games', gamesController.createGame);
-    app.put('/games', gamesController.updateGame);
-    app.delete('/games', gamesController.deleteGame);
+    app.get('/game', gamesController.createGame);
+    app.post('/game', gamesController.createGame);
+    app.put('/game', gamesController.updateGame);
+    app.delete('/game', gamesController.deleteGame);
 }
 
 const setupSocketsApi = (websocket) => {

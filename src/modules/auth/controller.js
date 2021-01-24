@@ -1,18 +1,27 @@
-const register = (req, res) => {
+const auth = require('./');
+
+const register = async (req, res) => {
+  await auth.login();
   return res.send('registered')
 };
 
-const login = (req, res) => {
+const login = async (req, res) => {
   const user = {};
+  await auth.login();
   return res.send('Login')
 }
 
-const logout = (req, res) => {
+const logout = async (req, res) => {
   return res.send('Logout')
+}
+
+const remove = async (req, res) => {
+  return res.send('Removed');
 }
 
 module.exports = {
   register,
   login,
   logout,
+  remove,
 }
