@@ -13,17 +13,15 @@ const setupRestApi = (app) => {
 
 // Auth
 
-    app.post('/auth', authController.register);
+    app.post('/auth/register', authController.register);
     app.post('/auth/login', authController.login);
     app.post('/auth/logout', authController.logout);
-    app.delete('/auth', authController.logout);
+    app.delete('/auth', authController.removeAccount);
 
-// Users
+// User
 
-    app.get('/users/:userId', usersController.fetchUser);
-    app.post('/users', usersController.createUser);
-    app.put('/users', usersController.updateUser);
-    app.delete('/users', usersController.deleteUser);
+    app.get('/user', usersController.fetchUser);
+    app.post('/user', usersController.updateUser);
 
 // Queue
 
@@ -32,10 +30,10 @@ const setupRestApi = (app) => {
 
 // Games
 
-    app.get('/game', gamesController.createGame);
-    app.post('/game', gamesController.createGame);
-    app.put('/game', gamesController.updateGame);
-    app.delete('/game', gamesController.deleteGame);
+    app.get('/game', gamesController.fetchGame);
+    app.put('/game', gamesController.createGame);
+    app.post('/game', gamesController.updateGame);
+    app.post('/game/leave', gamesController.leaveGame);
 }
 
 const setupSocketsApi = (websocket) => {

@@ -15,7 +15,7 @@ const logout = async (req, res) => {
   return res.send('Logout')
 }
 
-const remove = async (req, res) => {
+const removeAccount = async (req, res) => {
   return res.send('Removed');
 }
 
@@ -23,5 +23,5 @@ module.exports = {
   register,
   login,
   logout,
-  remove,
+  removeAccount,
 }

@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema(
   {
     id: String,
-    players: [{
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'User',
-    }],
+    players: [String],
     turn: String,
     association: String,
     flop: [{id: String, owner: String}],

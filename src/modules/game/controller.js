@@ -1,30 +1,27 @@
-const Game = require('./Game');
-const { generateID } = require('src/utils');
+const gameService = require('./');
 
-const createGame = async (req, res) => {
-  console.log('Creating game!');
-  const params = {
-    id: generateID(),
-    players: ['fake_0'],
-  };
-  const game = new Game(params);
-  await game.save();
-  console.log('Game created!');
-  const games = await Game.list();
-  console.log({ games });
+const fetchGame = async (req, res) => {
+  const game = await gameService.findGame();
   return res.send(game);
 };
 
-const updateGame = (req, res) => {
+const createGame = async (req, res) => {
+  const game = await gameService.createGame();
+  return res.send(game);
+};
+
+const updateGame = async (req, res) => {
+  const game = await gameService.createGame();
   return res.send('Game updated');
 }
 
-const deleteGame = (req, res) => {
-  return res.send('Game deleted');
+const leaveGame = (req, res) => {
+  return res.send('User left game');
 }
 
 module.exports = {
+  fetchGame,
   createGame,
   updateGame,
-  deleteGame,
+  leaveGame,
 }
