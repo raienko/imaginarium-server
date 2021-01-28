@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
   {
-    id: String,
     players: [String],
     turn: String,
     association: String,

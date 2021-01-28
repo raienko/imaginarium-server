@@ -6,13 +6,28 @@ const createUser = async (params) => {
   return user;
 }
 
+const fetchUser = async (id) => {
+  return User.findById(id);
+}
+
+const findByUsername = async (username) => {
+  return User.findOne({ username });
+}
+
 const updateUser = async (id, params) => {
-  const user = User.findOneAndUpdate({id}, {params}, {returnOriginal: false});
+  const user = User.findByIdAndUpdate(id, {params}, {returnOriginal: false});
   return user;
+}
+
+const deleteUser = async (id) => {
+  return User.findByIdAndDelete(id);
 }
 
 
 module.exports = {
   createUser,
+  fetchUser,
+  findByUsername,
   updateUser,
+  deleteUser
 }

@@ -4,6 +4,7 @@ const systemController = require('../modules/system/controller');
 const usersController = require('../modules/user/controller');
 const gamesController = require('../modules/game/controller');
 const queueController = require('../modules/queue/controller');
+const tokenController = require('../modules/token/controller');
 
 const setupRestApi = (app) => {
 
@@ -17,6 +18,11 @@ const setupRestApi = (app) => {
     app.post('/auth/login', authController.login);
     app.post('/auth/logout', authController.logout);
     app.delete('/auth', authController.removeAccount);
+
+// Token
+
+    app.post('token/verify', tokenController.verifyToken);
+    app.get('token/refresh', tokenController.refreshToken);
 
 // User
 
