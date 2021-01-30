@@ -17,6 +17,6 @@ const schema = new mongoose.Schema(
   { timestamps: false },
 );
 
-const Password = mongoose.model('Game', schema);
+const Password = mongoose.model('Password', schema);
 
 module.exports = Password;

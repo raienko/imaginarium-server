@@ -3,7 +3,7 @@ const authController = require('../modules/auth/controller');
 const systemController = require('../modules/system/controller');
 const usersController = require('../modules/user/controller');
 const gamesController = require('../modules/game/controller');
-const queueController = require('../modules/queue/controller');
+const matchmakingController = require('../modules/matchmaking/controller');
 const tokenController = require('../modules/token/controller');
 
 const setupRestApi = (app) => {
@@ -14,10 +14,9 @@ const setupRestApi = (app) => {
 
 // Auth
 
-    app.post('/auth/register', authController.register);
-    app.post('/auth/login', authController.login);
+    app.post('/auth', authController.auth);
     app.post('/auth/logout', authController.logout);
-    app.delete('/auth', authController.removeAccount);
+    app.delete('/auth', authController.deleteAccount);
 
 // Token
 
@@ -31,8 +30,8 @@ const setupRestApi = (app) => {
 
 // Queue
 
-    app.post('/queue', queueController.joinQueue);
-    app.delete('/queue', queueController.leaveQueue);
+    app.post('/queue', matchmakingController.joinQueue);
+    app.delete('/queue', matchmakingController.leaveQueue);
 
 // Games
 

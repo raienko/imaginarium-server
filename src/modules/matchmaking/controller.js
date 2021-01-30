@@ -1,5 +1,4 @@
-let queue = [];
-let ranked = [];
+const matchmakingService = require('./');
 
 const joinQueue = (req, res) => {
   console.log('User joined queue');
@@ -7,7 +6,7 @@ const joinQueue = (req, res) => {
   // if queue has 5 or more players - create game immediately and notify all players
   // else - add user to the queue
   const userId = Date.now();
-  queue.push(userId)
+  matchmakingService.leaveQueue()
   return res.send(true);
 };
 

@@ -1,14 +1,10 @@
 const authService = require('./');
 
-const register = async (req, res) => {
-  const result = await authService.register(req.body);
+const auth = async (req, res) => {
+  const { username, password } = req.body;
+  const result = await authService.auth(username, password);
   return res.send(result);
 };
-
-const login = async (req, res) => {
-  const result = await authService.login(req.body.user, req.body.password);
-  return res.send(result);
-}
 
 const logout = async (req, res) => {
   return res.send('Logout')
@@ -20,8 +16,7 @@ const deleteAccount = async (req, res) => {
 }
 
 module.exports = {
-  register,
-  login,
+  auth,
   logout,
   deleteAccount,
 }

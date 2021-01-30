@@ -9,7 +9,14 @@ const throwError = (message, code, data) => {
   throw err;
 }
 
+const isDev = process.env.TYPE === 'DEV';
+
+const isProd = process.env.TYPE === 'PROD';
+
+
 module.exports = {
   generateID,
   throwError,
+  isDev,
+  isProd,
 }

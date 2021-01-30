@@ -1,7 +1,7 @@
 const gameService = require('./');
 
 const fetchGame = async (req, res) => {
-  const game = await gameService.findGame();
+  const game = await gameService.fetchGame();
   return res.send(game);
 };
 
@@ -12,10 +12,12 @@ const createGame = async (req, res) => {
 
 const updateGame = async (req, res) => {
   const game = await gameService.createGame();
-  return res.send('Game updated');
+  return res.send(game);
 }
 
-const leaveGame = (req, res) => {
+const leaveGame = async (req, res) => {
+  const user = 1;
+  await gameService.leaveGame(user);
   return res.send('User left game');
 }
 

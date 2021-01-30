@@ -23,9 +23,16 @@ const deleteGame = async (id) => {
   return Game.findByIdAndDelete(id);
 }
 
+const leaveGame = async (user) => {
+  const game = await Game.findOne({players: [user]});
+  // remove player
+  return game;
+}
+
 module.exports = {
   createGame,
   updateGame,
   fetchGame,
   deleteGame,
+  leaveGame,
 }

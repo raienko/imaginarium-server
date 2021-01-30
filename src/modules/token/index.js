@@ -3,6 +3,7 @@ const moment = require('moment');
 const tokenTypes = require('src/modules/token/types');
 const { throwError } = require('src/utils');
 const Token = require('./Token');
+
 const secret = process.env.JWT_SECRET;
 
 const generateToken = async (userId, type, expires) => {
@@ -28,18 +29,18 @@ const saveToken = async (token, userId, type, expires, blacklisted = false) => {
 
 const generateAuthTokens = async (user) => {
   const accessTokenExpires = moment().add(process.env.accessExpirationMinutes, 'minutes');
-  const accessToken = generateToken(user.id, tokenTypes.ACCESS, accessTokenExpires);
+  const accessToken = await generateToken(user.id, tokenTypes.ACCESS, accessTokenExpires);
 
   const refreshTokenExpires = moment().add(process.env.refreshExpirationDays, 'days');
-  const refreshToken = generateToken(user.id, tokenTypes.REFRESH, refreshTokenExpires);
+  const refreshToken = await generateToken(user.id, tokenTypes.REFRESH, refreshTokenExpires);
   await saveToken(refreshToken, user.id, tokenTypes.REFRESH, refreshTokenExpires);
 
   return {
-    access: {
+    [tokenTypes.ACCESS]: {
       token: accessToken,
       expires: accessTokenExpires.toDate(),
     },
-    refresh: {
+    [tokenTypes.REFRESH]: {
       token: refreshToken,
       expires: refreshTokenExpires.toDate(),
     },

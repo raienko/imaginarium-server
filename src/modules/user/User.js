@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      unique: true,
-      required: true,
-    },
     username: {
       type: String,
       unique: true,
@@ -20,7 +15,7 @@ const schema = new mongoose.Schema(
     game: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Game',
-      unique: true,
+      unique: false,
       required: false,
     },
   },
