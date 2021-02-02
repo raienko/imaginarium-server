@@ -7,7 +7,7 @@ const createPassword = async (user, password) => {
 };
 
 const updatePassword = async (user, currentPassword, newPassword ) => {
-  await Password.findOneAndUpdate({ user, password: currentPassword }, { password: newPassword });
+  await Password.updateOne({ user, password: currentPassword }, { password: newPassword });
   return true;
 };
 
@@ -17,7 +17,7 @@ const verifyPassword = async (user, password) => {
 };
 
 const deletePassword = async (user, password) => {
-  return Password.findOneAndDelete({user, password});
+  return Password.deleteOne({user, password});
 };
 
 module.exports = {

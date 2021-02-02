@@ -7,7 +7,7 @@ const joinQueue = async (users, filters) => {
 }
 
 const leaveQueue = async (users) => {
-  return Queue.findOneAndDelete({ users })
+  return Queue.deleteOne({ users })
 }
 
 const checkQueue = async () => {

@@ -1,18 +1,21 @@
 const extractors = require('src/utils/extractors');
 const tokenService = require('src/modules/token');
+const { newError } = require('src/utils');
 
 const auth = async (req, res, next) => {
   const token = extractors.extractAuthToken(req);
+
   if (!token) {
     return next();
   }
 
   try {
     const payload = tokenService.parseToken(token);
+
     req.token = token;
-    req.user = payload.user;
+    req.user = payload.sub;
   } catch (err) {
-    console.log('Failed to parse token: ', err.message);
+    next(newError(err.message, 403))
   }
 
   return next();

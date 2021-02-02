@@ -11,6 +11,7 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
+  console.log(req.user, req.body);
   const profile = await userService.updateUser(req.user, req.body);
   return res.send(profile);
 }

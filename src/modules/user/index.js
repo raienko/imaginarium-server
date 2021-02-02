@@ -15,7 +15,7 @@ const findByUsername = async (username) => {
 }
 
 const updateUser = async (id, params) => {
-  const user = User.findByIdAndUpdate(id, {params}, {returnOriginal: false});
+  const user = await User.findByIdAndUpdate(id, {params}, {returnOriginal: false});
   return user;
 }
 
