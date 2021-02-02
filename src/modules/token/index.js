@@ -29,11 +29,12 @@ const saveToken = async (token, userId, type, expires, blacklisted = false) => {
 
 const generateAuthTokens = async (user) => {
   const accessTokenExpires = moment().add(process.env.accessExpirationMinutes, 'minutes');
-  const accessToken = await generateToken(user.id, tokenTypes.ACCESS, accessTokenExpires);
+  const accessToken = await generateToken(user, tokenTypes.ACCESS, accessTokenExpires);
+  await saveToken(accessToken, user, tokenTypes.ACCESS, accessTokenExpires);
 
   const refreshTokenExpires = moment().add(process.env.refreshExpirationDays, 'days');
-  const refreshToken = await generateToken(user.id, tokenTypes.REFRESH, refreshTokenExpires);
-  await saveToken(refreshToken, user.id, tokenTypes.REFRESH, refreshTokenExpires);
+  const refreshToken = await generateToken(user, tokenTypes.REFRESH, refreshTokenExpires);
+  await saveToken(refreshToken, user, tokenTypes.REFRESH, refreshTokenExpires);
 
   return {
     [tokenTypes.ACCESS]: {
@@ -47,23 +48,28 @@ const generateAuthTokens = async (user) => {
   };
 };
 
-const verifyToken = async (token, type) => {
-  const payload = jwt.verify(token, secret);
-  const record = await Token.findOne({ token, type, user: payload.sub, blacklisted: false });
-  if (!record) {
-    throwError('Token not found');
+const verifyToken = async (token, type = tokenTypes.ACCESS) => {
+  try {
+    const payload = jwt.verify(token, secret);
+    await Token.find().then(console.log);
+    const record = await Token.findOne({ token, type, user: payload.sub, blacklisted: false });
+    return record
+  } catch (err) {
+    throwError(`Token verification failed: ${err.message}`, 403);
   }
-  return record;
 };
 
 const deleteTokens = async (user) => {
   return Token.remove({ user });
 }
 
+const parseToken = (token) => jwt.decode(token, secret);
+
 module.exports = {
   generateToken,
   saveToken,
   verifyToken,
   generateAuthTokens,
-  deleteTokens
+  deleteTokens,
+  parseToken,
 }

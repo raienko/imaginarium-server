@@ -1,3 +1,5 @@
+const tokenService = require('src/modules/token');
+
 const originIsAllowed = (origin) => {
   // put logic here to detect whether the specified origin is allowed.
   return true;
@@ -8,42 +10,51 @@ const getRequestHeaders = (request) => {
   return request.httpRequest[symbol];
 }
 
-const extractUserId = (authorizationToken) => authorizationToken;
-
 let connections = [];
 
-const controller = (request) => {
+const controller = async (request) => {
   const headers = getRequestHeaders(request);
-  const authorizationToken = headers.authorization;
-  const userId = extractUserId(authorizationToken);
+  const token = headers.authorization;
+  if (!token) {
+    console.log('No token!');
+    return request.reject('No auth token');
+  }
+
+  const payload = tokenService.parseToken(token);
+
+  if (!payload) {
+    console.log('Invalid token!');
+    return request.reject('Invalid token');
+  }
+
+  const { user } = payload;
 
   if (!originIsAllowed(request.origin)) {
-    request.reject();
-    console.log(`${userId} connection from "${request.origin}" origin rejected.`);
-    return;
+    console.log(`${user} connection from "${request.origin}" origin rejected.`);
+    return request.reject();
   }
 
   const connection = request.accept('echo-protocol', request.origin);
-  console.log(`${userId} connected`);
+  console.log(`${user} connected`);
 
   connections.push({
-    userId,
+    user,
     connection,
   });
 
   connection.on('message', function(message) {
     if (message.type === 'utf8') {
       const event = JSON.parse(message.utf8Data);
-      console.log(`${userId} sent ${event.type}: ` + event.data);
+      console.log(`${user} sent ${event.type}: ` + event.data);
       connection.sendUTF(message.utf8Data);
     } else if (message.type === 'binary') {
-      console.log(`${userId} sent file of ` + message.binaryData.length + ' bytes');
+      console.log(`${user} sent file of ` + message.binaryData.length + ' bytes');
       connection.sendBytes(message.binaryData);
     }
   });
 
   connection.on('close', function(reasonCode, description) {
-    console.log(`${userId} disconnected: ${reasonCode}`);
+    console.log(`${user} disconnected: ${reasonCode}`);
   });
 }
 

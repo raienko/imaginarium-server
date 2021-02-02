@@ -8,7 +8,7 @@ const schema = new mongoose.Schema(
       required: true,
     },
     character: {
-      type: Object,
+      type: Number,
       unique: false,
       required: false,
     },

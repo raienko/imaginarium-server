@@ -6,7 +6,12 @@ const gamesController = require('../modules/game/controller');
 const matchmakingController = require('../modules/matchmaking/controller');
 const tokenController = require('../modules/token/controller');
 
+const auth = require('src/middlewares/auth');
+const catchError = require('src/middlewares/catchError');
+
 const setupRestApi = (app) => {
+
+    app.use('*', auth);
 
 // System
 
@@ -14,31 +19,31 @@ const setupRestApi = (app) => {
 
 // Auth
 
-    app.post('/auth', authController.auth);
-    app.post('/auth/logout', authController.logout);
-    app.delete('/auth', authController.deleteAccount);
+    app.post('/auth', catchError(authController.auth));
+    app.post('/auth/logout', catchError(authController.logout));
+    app.delete('/auth', catchError(authController.deleteAccount));
 
 // Token
 
-    app.post('token/verify', tokenController.verifyToken);
-    app.get('token/refresh', tokenController.refreshToken);
+    app.post('token/verify', catchError(tokenController.verifyToken));
+    app.get('token/refresh', catchError(tokenController.refreshToken));
 
 // User
 
-    app.get('/user', usersController.fetchUser);
-    app.post('/user', usersController.updateUser);
+    app.get('/user', catchError(usersController.fetchUser));
+    app.post('/user', catchError(usersController.updateUser));
 
 // Queue
 
-    app.post('/queue', matchmakingController.joinQueue);
-    app.delete('/queue', matchmakingController.leaveQueue);
+    app.post('/queue', catchError(matchmakingController.joinQueue));
+    app.delete('/queue', catchError(matchmakingController.leaveQueue));
 
 // Games
 
-    app.get('/game', gamesController.fetchGame);
-    app.put('/game', gamesController.createGame);
-    app.post('/game', gamesController.updateGame);
-    app.post('/game/leave', gamesController.leaveGame);
+    app.get('/game', catchError(gamesController.fetchGame));
+    app.put('/game', catchError(gamesController.createGame));
+    app.post('/game', catchError(gamesController.updateGame));
+    app.post('/game/leave', catchError(gamesController.leaveGame));
 }
 
 const setupSocketsApi = (websocket) => {

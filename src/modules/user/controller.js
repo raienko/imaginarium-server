@@ -1,17 +1,23 @@
-const fetchUser = (req, res) => {
-  return res.send('User added')
+const userService = require('./');
+
+const fetchUser = async (req, res) => {
+  const profile = await userService.fetchUser(req.user);
+  return res.send(profile);
 };
 
-const createUser = (req, res) => {
-  return res.send('User added')
+const createUser = async (req, res) => {
+  const profile = await userService.createUser(req.body);
+  return res.send(profile);
 };
 
-const updateUser = (req, res) => {
-  return res.send('User updated')
+const updateUser = async (req, res) => {
+  const profile = await userService.updateUser(req.user, req.body);
+  return res.send(profile);
 }
 
-const deleteUser = (req, res) => {
-  return res.send('User removed')
+const deleteUser = async (req, res) => {
+  const success = await userService.deleteUser(req.user);
+  return res.send(success);
 };
 
 module.exports = {
