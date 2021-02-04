@@ -6,21 +6,20 @@ const createUser = async (params) => {
   return user;
 }
 
-const fetchUser = async (id) => {
-  return User.findById(id);
+const fetchUser = async (_id) => {
+  return User.findOne({ _id });
 }
 
 const findByUsername = async (username) => {
   return User.findOne({ username });
 }
 
-const updateUser = async (id, params) => {
-  const user = await User.findByIdAndUpdate(id, {params}, {returnOriginal: false});
-  return user;
+const updateUser = async (_id, update) => {
+  return User.findOneAndUpdate({ _id }, update, { new: true });
 }
 
-const deleteUser = async (id) => {
-  return User.findByIdAndDelete(id);
+const deleteUser = async (_id) => {
+  return User.deleteOne({ _id });
 }
 
 

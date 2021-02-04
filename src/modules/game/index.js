@@ -11,16 +11,16 @@ const createGame = async (params) => {
   return game;
 }
 
-const fetchGame = async (id) => {
-  return Game.findById(id);
+const fetchGame = async (_id) => {
+  return Game.findOne({ _id });
 }
 
-const updateGame = async (id, params) => {
-  return Game.findByIdAndUpdate(id, params, {returnOriginal: false})
+const updateGame = async (_id, update) => {
+  return Game.findOneAndUpdate({ _id }, update, {new: true})
 }
 
-const deleteGame = async (id) => {
-  return Game.findByIdAndDelete(id);
+const deleteGame = async (_id) => {
+  return Game.deleteOne({ _id });
 }
 
 const leaveGame = async (user) => {

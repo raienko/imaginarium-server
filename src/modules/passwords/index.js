@@ -7,7 +7,7 @@ const createPassword = async (user, password) => {
 };
 
 const updatePassword = async (user, currentPassword, newPassword ) => {
-  await Password.updateOne({ user, password: currentPassword }, { password: newPassword });
+  await Password.findOneAndUpdate({ user, password: currentPassword }, { password: newPassword });
   return true;
 };
 

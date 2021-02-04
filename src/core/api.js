@@ -8,6 +8,7 @@ const tokenController = require('../modules/token/controller');
 
 const auth = require('src/middlewares/auth');
 const catchError = require('src/middlewares/catchError');
+const errorResponder = require('src/middlewares/errorResponder');
 
 const setupRestApi = (app) => {
 
@@ -44,6 +45,8 @@ const setupRestApi = (app) => {
     app.put('/game', catchError(gamesController.createGame));
     app.post('/game', catchError(gamesController.updateGame));
     app.post('/game/leave', catchError(gamesController.leaveGame));
+
+    app.use(errorResponder)
 }
 
 const setupSocketsApi = (websocket) => {
