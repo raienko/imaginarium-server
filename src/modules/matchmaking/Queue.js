@@ -2,18 +2,14 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
   {
-    users: [{
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'User',
-        unique: true,
-        required: true,
-    }],
+    user: String,
+    group: String,
     locales: [String],
     rating: Number,
   },
   { timestamps: true },
 );
 
-const Queue = mongoose.model('Match', schema);
+const Queue = mongoose.model('Queue', schema);
 
 module.exports = Queue;

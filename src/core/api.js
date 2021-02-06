@@ -34,7 +34,7 @@ const setupRestApi = (app) => {
     app.get('/user', catchError(usersController.fetchUser));
     app.post('/user', catchError(usersController.updateUser));
 
-// Queue
+// Matchmaking
 
     app.post('/queue', catchError(matchmakingController.joinQueue));
     app.delete('/queue', catchError(matchmakingController.leaveQueue));
