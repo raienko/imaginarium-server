@@ -1,4 +1,5 @@
 const gameService = require('./');
+const Game = require('./Game');
 
 const fetchGame = async (req, res) => {
   const game = await gameService.fetchGame();
@@ -10,9 +11,17 @@ const createGame = async (req, res) => {
   return res.send(game);
 };
 
-const updateGame = async (req, res) => {
-  const game = await gameService.createGame();
-  return res.send(game);
+const selectAssociation = async (req, res) => {
+  const game = await gameService.updateGame(req.body.game, req.body.association, req.body.card);
+  // pingUsersToUpdateGame
+  return game;
+};
+
+const playCard = async (req, res) => {
+  const game = await gameService.fetchGame(req.body.game);
+  const flop = game.flop.concat(req.body.card);
+  await gameService.updateGame(req.body.game, { flop });
+  return game;
 }
 
 const leaveGame = async (req, res) => {
@@ -24,6 +33,5 @@ const leaveGame = async (req, res) => {
 module.exports = {
   fetchGame,
   createGame,
-  updateGame,
   leaveGame,
 }

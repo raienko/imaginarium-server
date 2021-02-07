@@ -3,8 +3,7 @@ const { generateID } = require('src/utils');
 
 const createGame = async (params) => {
   const options = {
-    id: generateID(),
-    players: ['fake_0'],
+    players: params.player,
   };
   const game = new Game(options);
   await game.save();

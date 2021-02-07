@@ -5,8 +5,8 @@ const schema = new mongoose.Schema(
     players: [String],
     turn: String,
     association: String,
-    flop: [{id: String, owner: String}],
-    deck: [{id: String, owner: String}],
+    flop: [],
+    deck: [],
   },
   { timestamps: true },
 );
