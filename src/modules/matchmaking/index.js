@@ -36,7 +36,8 @@ const findMatches = async () => {
   const users = queue.map(i => i.user);
   if (users.length < 4) {
     console.log('Not enough users:', { users });
-    return false;
+    console.log('Push bots');
+    users.push('bot1', 'bot2', 'bot3');
   }
   console.log(users);
   return match(users);

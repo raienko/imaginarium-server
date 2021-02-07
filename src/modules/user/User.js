@@ -18,6 +18,10 @@ const schema = new mongoose.Schema(
       unique: false,
       required: false,
     },
+    role: {
+      type: String,
+      unique: false,
+    }
   },
   {
     timestamps: true,
