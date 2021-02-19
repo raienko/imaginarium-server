@@ -2,13 +2,13 @@ const Queue = require('./Queue');
 const gameService = require('src/modules/game');
 
 const joinQueue = async (user, filters) => {
-  const request = new Queue({ user, ...filters });
-  await request.save();
+  const queue = new Queue({ user, ...filters });
+  await queue.save();
   return true;
 }
 
 const leaveQueue = async (user) => {
-  return Queue.remove({ user });
+  return Queue.deleteOne({ user });
 }
 
 const checkQueue = async (user) => {
@@ -34,12 +34,17 @@ const findMatches = async () => {
   console.log('Finding matches!');
   const queue = await Queue.find().limit(5);
   const users = queue.map(i => i.user);
+
+  if (users.length === 0) {
+    console.log('No users at all :-(')
+    return false;
+  }
+
   if (users.length < 4) {
     console.log('Not enough users:', { users });
-    console.log('Push bots');
-    users.push('bot1', 'bot2', 'bot3');
+    console.log('Push bots!');
   }
-  console.log(users);
+
   return match(users);
 }
 

@@ -10,6 +10,10 @@ const fetchUser = async (_id) => {
   return User.findOne({ _id });
 }
 
+const findUsers = async (users) => {
+  return User.find({ _id: { $in: users } });
+}
+
 const findByUsername = async (username) => {
   return User.findOne({ username });
 }
@@ -28,5 +32,6 @@ module.exports = {
   fetchUser,
   findByUsername,
   updateUser,
-  deleteUser
+  deleteUser,
+  findUsers,
 }

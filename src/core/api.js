@@ -36,14 +36,14 @@ const setupRestApi = (app) => {
 
 // Matchmaking
 
-    app.post('/queue', catchError(matchmakingController.joinQueue));
-    app.delete('/queue', catchError(matchmakingController.leaveQueue));
+    app.post('/matchmaking', catchError(matchmakingController.joinQueue));
+    app.delete('/matchmaking', catchError(matchmakingController.leaveQueue));
 
 // Games
 
     app.get('/game', catchError(gamesController.fetchGame));
     app.put('/game', catchError(gamesController.createGame));
-    app.post('/game', catchError(gamesController.updateGame));
+    app.post('/game', catchError(gamesController.playCard));
     app.post('/game/leave', catchError(gamesController.leaveGame));
 
     app.use(errorResponder)

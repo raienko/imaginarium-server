@@ -1,3 +1,4 @@
+const { throwError } = require('src/utils');
 const gameService = require('./');
 const Game = require('./Game');
 
@@ -7,11 +8,14 @@ const fetchGame = async (req, res) => {
 };
 
 const createGame = async (req, res) => {
-  const game = await gameService.createGame();
+  const game = await gameService.createGame({
+    users: req.body.users,
+    turn: req.user,
+  });
   return res.send(game);
 };
 
-const selectAssociation = async (req, res) => {
+const playAssociation = async (req, res) => {
   const game = await gameService.updateGame(req.body.game, req.body.association, req.body.card);
   // pingUsersToUpdateGame
   return game;
@@ -19,6 +23,9 @@ const selectAssociation = async (req, res) => {
 
 const playCard = async (req, res) => {
   const game = await gameService.fetchGame(req.body.game);
+  if (!game) {
+    throwError('No game found');
+  }
   const flop = game.flop.concat(req.body.card);
   await gameService.updateGame(req.body.game, { flop });
   return game;
@@ -34,4 +41,6 @@ module.exports = {
   fetchGame,
   createGame,
   leaveGame,
+  playCard,
+  playAssociation,
 }

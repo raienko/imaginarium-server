@@ -1,11 +1,16 @@
+const userService = require('src/modules/user');
+const cardsService = require('src/modules/cards');
+const { nextTurn } = require('./utils');
 const Game = require('./Game');
-const { generateID } = require('src/utils');
 
 const createGame = async (params) => {
-  const options = {
-    players: params.player,
-  };
-  const game = new Game(options);
+  const users = await userService.findUsers(params.users);
+  const deck = await cardsService.getDeck();
+  const game = new Game({
+    ...params,
+    users,
+    deck,
+  });
   await game.save();
   return game;
 }
@@ -22,10 +27,26 @@ const deleteGame = async (_id) => {
   return Game.deleteOne({ _id });
 }
 
-const leaveGame = async (user) => {
-  const game = await Game.findOne({players: [user]});
-  // remove player
-  return game;
+const leaveGame = async (_id, user) => {
+  await userService.updateUser(_id, { game: null });
+  const game = await Game.findById(_id);
+  const updates = {};
+  if (game.turn === user) {
+    updates.turn = nextTurn(game);
+  }
+
+  updates.players = game.players.map(player => {
+    if (player._id === user) {
+      return {
+        ...player,
+        status: 'left',
+      }
+    } else {
+      return player;
+    }
+  });
+
+  return Game.findByIdAndUpdate(_id, updates);
 }
 
 module.exports = {

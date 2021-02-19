@@ -18,6 +18,15 @@ const isDev = process.env.TYPE === 'DEV';
 
 const isProd = process.env.TYPE === 'PROD';
 
+const nextIndex = (index, arr) => {
+  return (index + 1) % arr.length;
+}
+
+const prevIndex = (index, arr) => {
+  const previous = index - 1;
+  return previous < 0 ? arr.length - 1 : previous;
+}
+
 
 module.exports = {
   generateID,
@@ -25,4 +34,6 @@ module.exports = {
   throwError,
   isDev,
   isProd,
+  nextIndex,
+  prevIndex,
 }
