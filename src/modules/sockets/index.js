@@ -1,5 +1,5 @@
-import Room from './Room';
-import connections from './connections';
+const Room = require ('./Room');
+const connections = require('./connections');
 
 const addConnection = (user, connection) => {
   if (!connections[user]) {
