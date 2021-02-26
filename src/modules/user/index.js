@@ -26,6 +26,10 @@ const deleteUser = async (_id) => {
   return User.deleteOne({ _id });
 }
 
+const updateMultiple = async (users, updates) => {
+  return User.updateMany({_id: {$in: users}}, updates);
+}
+
 
 module.exports = {
   createUser,
@@ -34,4 +38,5 @@ module.exports = {
   updateUser,
   deleteUser,
   findUsers,
+  updateMultiple,
 }

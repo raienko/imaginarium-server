@@ -2,13 +2,18 @@ const Room = require ('./Room');
 const connections = require('./connections');
 
 const addConnection = (user, connection) => {
+  console.log(`User: ${user} connected!`, connection.id);
+
   if (!connections[user]) {
     connections[user] = [];
   }
+
   return connections[user].push(connection);
 };
 
 const cancelConnection = (user, connection) => {
+  console.log(`User: ${user} disconnected!`);
+
   if (!connections[user]?.length) {
     return;
   }
@@ -37,6 +42,7 @@ const joinRoom = async (game, users) => {
 
 const sendRoomMessage = async (game, message) => {
   const room = await Room.findOne({ game });
+  console.log({ room });
   return room?.users.map(user => sendMessage(user, message));
 }
 
