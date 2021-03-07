@@ -41,8 +41,8 @@ const setupRestApi = (app) => {
 
 // Games
 
-    app.get('/game', catchError(gamesController.fetchGame));
     app.put('/game', catchError(gamesController.createGame));
+    app.get('/game', catchError(gamesController.fetchGame));
     app.post('/game', catchError(gamesController.playCard));
     app.post('/game/leave', catchError(gamesController.leaveGame));
 

@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
   {
-    players: [String],
+    users: Array,
     turn: String,
+    cards: Array,
+    deck: Array,
     association: String,
-    flop: [],
-    deck: [],
   },
   { timestamps: true },
 );

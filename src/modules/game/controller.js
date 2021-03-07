@@ -1,24 +1,28 @@
 const { throwError } = require('src/utils');
 const gameService = require('./');
-const Game = require('./Game');
-
-const fetchGame = async (req, res) => {
-  const game = await gameService.fetchGame();
-  return res.send(game);
-};
+const userService = require('../user');
 
 const createGame = async (req, res) => {
   const game = await gameService.createGame({
     users: req.body.users,
     turn: req.user,
   });
-  return res.send(game);
+  const users = await userService.findUsers(req.body.users);
+  return res.json({
+    ...game,
+    users,
+  });
+};
+
+const fetchGame = async (req, res) => {
+  const game = await gameService.fetchGame(req.user);
+  return res.json(game);
 };
 
 const playAssociation = async (req, res) => {
   const game = await gameService.updateGame(req.body.game, req.body.association, req.body.card);
   // pingUsersToUpdateGame
-  return game;
+  return res.json(game);
 };
 
 const playCard = async (req, res) => {
@@ -32,8 +36,8 @@ const playCard = async (req, res) => {
 }
 
 const leaveGame = async (req, res) => {
-  const user = 1;
-  await gameService.leaveGame(user);
+  await gameService.leaveGame(req.user);
+  await userService.updateUser(req.user, { game: null });
   return res.send('User left game');
 }
 

@@ -34,17 +34,11 @@ const clearQueue = async () => {
 const match = async (users) => {
   console.log('Matching: ', users);
   const game = await gameService.createGame({ users });
-  console.log('Game created!', game._id);
   await userService.updateMultiple(users, { game: game._id });
   await socketService.createRoom(game._id, users);
-  console.log('Room created!');
   await removeFromQueue(users);
-  console.log('Queue cleaned');
-  await socketService.sendRoomMessage(game._id, {
-    type: 'game_created',
-    game: game._id,
-  });
-  console.log('Messages sent');
+  await socketService.sendRoomMessage(game._id, { type: 'game_created' });
+  console.log('Users matched: ', game._id);
 }
 
 const findMatches = async () => {

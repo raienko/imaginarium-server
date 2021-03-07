@@ -1,26 +1,17 @@
 const userService = require('src/modules/user');
-const cardsService = require('src/modules/cards');
-const { nextTurn } = require('./utils');
 const Game = require('./Game');
 
 const createGame = async (params) => {
-  const users = await userService.findUsers(params.users);
-  const deck = await cardsService.getDeck();
-  const game = new Game({
-    ...params,
-    users,
-    deck,
-  });
-  await game.save();
-  return game;
+  const game = new Game(params);
+  return game.save();
 }
 
-const fetchGame = async (_id) => {
-  return Game.findOne({ _id });
+const fetchGame = async (user) => {
+  return Game.findOne({ 'users': user });
 }
 
 const updateGame = async (_id, update) => {
-  return Game.findOneAndUpdate({ _id }, update, {new: true})
+  return Game.findOneAndUpdate({ _id }, update);
 }
 
 const deleteGame = async (_id) => {
@@ -29,24 +20,7 @@ const deleteGame = async (_id) => {
 
 const leaveGame = async (_id, user) => {
   await userService.updateUser(_id, { game: null });
-  const game = await Game.findById(_id);
-  const updates = {};
-  if (game.turn === user) {
-    updates.turn = nextTurn(game);
-  }
-
-  updates.players = game.players.map(player => {
-    if (player._id === user) {
-      return {
-        ...player,
-        status: 'left',
-      }
-    } else {
-      return player;
-    }
-  });
-
-  return Game.findByIdAndUpdate(_id, updates);
+  return Game.findByIdAndUpdate(_id, {users: {$pull: user}}, {new: true});
 }
 
 module.exports = {

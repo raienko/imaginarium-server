@@ -42,7 +42,6 @@ const joinRoom = async (game, users) => {
 
 const sendRoomMessage = async (game, message) => {
   const room = await Room.findOne({ game });
-  console.log({ room });
   return room?.users.map(user => sendMessage(user, message));
 }
 
