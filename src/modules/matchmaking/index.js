@@ -1,6 +1,3 @@
-const gameService = require('src/modules/game');
-const socketService = require('src/modules/sockets');
-const userService = require('src/modules/user');
 const Queue = require('./Queue');
 
 const joinQueue = async (user, filters) => {
@@ -23,43 +20,11 @@ const removeFromQueue = async (users) => {
 }
 
 const clearQueue = async () => {
-  const queue = await Queue.find();
-  queue.map(i => socketService.sendMessage(i.user, {
-    type: 'queue_cancelled',
-    message: 'Queue cancelled',
-  }));
   return Queue.collection.drop();
 };
 
-const match = async (users) => {
-  console.log('Matching: ', users);
-  const game = await gameService.createGame({ users });
-  await userService.updateMultiple(users, { game: game._id });
-  await socketService.createRoom(game._id, users);
-  await removeFromQueue(users);
-  await socketService.sendRoomMessage(game._id, { type: 'game_created' });
-  console.log('Users matched: ', game._id);
-}
-
-const findMatches = async () => {
-  console.log('Searching for matches!');
-
-  const queue = await Queue.find().limit(5);
-  const users = queue.map(i => i.user);
-
-  if (users.length === 0) {
-    console.log('No users at all :-(')
-    return false;
-  }
-
-  if (users.length < 3) {
-    console.log('Not enough users:', { users });
-    console.log('Push bots!');
-    return false;
-  }
-
-  console.log('Matched!')
-  return match(users);
+const findInQueue = async (params, limit = 5) => {
+  return Queue.find(params).limit(limit)
 }
 
 module.exports = {
@@ -68,6 +33,5 @@ module.exports = {
   checkQueue,
   clearQueue,
   removeFromQueue,
-  match,
-  findMatches,
+  findInQueue,
 }

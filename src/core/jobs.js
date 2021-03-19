@@ -1,7 +1,9 @@
-const matchmakingJobs = require('src/modules/matchmaking/jobs');
+const cron = require('node-cron');
+const jobIntervals = require('src/utils/jobIntervals');
+const findMatches = require('src/flows/findMatches');
 
 const jobs = [
-  matchmakingJobs.findMatch,
+  cron.schedule(jobIntervals.minute, findMatches, { scheduled: false }),
 ]
 
 const start = () => jobs.forEach(job => job.start());

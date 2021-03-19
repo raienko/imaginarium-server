@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
   {
-    users: Array,
+    users: [{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'User',
+    }],
     turn: String,
     cards: Array,
     deck: Array,

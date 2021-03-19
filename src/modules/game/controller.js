@@ -16,7 +16,11 @@ const createGame = async (req, res) => {
 
 const fetchGame = async (req, res) => {
   const game = await gameService.fetchGame(req.user);
-  return res.json(game);
+  const users = await userService.findUsers(game.users);
+  return res.json({
+    ...game,
+    users,
+  });
 };
 
 const playAssociation = async (req, res) => {

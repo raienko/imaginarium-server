@@ -1,4 +1,3 @@
-const userService = require('src/modules/user');
 const Game = require('./Game');
 
 const createGame = async (params) => {
@@ -19,8 +18,11 @@ const deleteGame = async (_id) => {
 }
 
 const leaveGame = async (_id, user) => {
-  await userService.updateUser(_id, { game: null });
-  return Game.findByIdAndUpdate(_id, {users: {$pull: user}}, {new: true});
+  return Game.findByIdAndUpdate(_id, {users: {$pull: user }}, {new: true});
+}
+
+const findGame = async (_id) => {
+  return Game.findOne({ _id });
 }
 
 module.exports = {
@@ -29,4 +31,5 @@ module.exports = {
   fetchGame,
   deleteGame,
   leaveGame,
+  findGame,
 }
