@@ -18,7 +18,7 @@ const deleteGame = async (_id) => {
 }
 
 const leaveGame = async (_id, user) => {
-  return Game.findByIdAndUpdate(_id, {users: {$pull: user }}, {new: true});
+  return Game.findByIdAndUpdate(_id, {$pull: { users: user }}, {new: true});
 }
 
 const findGame = async (_id) => {

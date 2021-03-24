@@ -13,5 +13,6 @@ module.exports = async (gameId) => {
   await socketService.cancelRoom(gameId);
   await matchmakingService.removeFromQueue(game.users);
   await socketService.sendRoomMessage(gameId, { type: 'game_canceled' });
+  await socketService.cancelRoom(gameId)
   console.log('Game canceled: ', gameId);
 }

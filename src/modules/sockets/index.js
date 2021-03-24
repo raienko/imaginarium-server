@@ -46,7 +46,7 @@ const sendRoomMessage = async (game, message) => {
 }
 
 const kickFromRoom = async (game, users) => {
-  return Room.findByIdAndUpdate({ game }, { $pull: { users } });
+  return Room.findByIdAndUpdate(game, { $pull: { users } });
 };
 
 const cancelRoom = async (game) => {

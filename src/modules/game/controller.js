@@ -1,6 +1,7 @@
 const { throwError } = require('src/utils');
 const gameService = require('./');
 const userService = require('../user');
+const leaveGameFlow = require('src/flows/leaveGame');
 
 const createGame = async (req, res) => {
   const game = await gameService.createGame({
@@ -40,8 +41,7 @@ const playCard = async (req, res) => {
 }
 
 const leaveGame = async (req, res) => {
-  await gameService.leaveGame(req.user);
-  await userService.updateUser(req.user, { game: null });
+  await leaveGameFlow(req.user);
   return res.send('User left game');
 }
 
