@@ -25,6 +25,8 @@ const findGame = async (_id) => {
   return Game.findOne({ _id });
 }
 
+const listGames = async () => Game.find();
+
 module.exports = {
   createGame,
   updateGame,
@@ -32,4 +34,5 @@ module.exports = {
   deleteGame,
   leaveGame,
   findGame,
+  listGames,
 }

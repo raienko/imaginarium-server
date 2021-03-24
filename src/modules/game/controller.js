@@ -16,7 +16,8 @@ const createGame = async (req, res) => {
 };
 
 const fetchGame = async (req, res) => {
-  const game = await gameService.fetchGame(req.user);
+  const gameDoc = await gameService.fetchGame(req.user);
+  const game = gameDoc?.toObject();
   const users = await userService.findUsers(game.users);
   return res.json({
     ...game,

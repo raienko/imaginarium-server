@@ -7,6 +7,9 @@ const cancelGame = require('src/flows/cancelGame');
 module.exports = async (user) => {
   const profile = await userService.fetchUser(user);
   const gameId = profile.game;
+  if (!gameId) {
+    return true;
+  }
   console.log(`User ${user} leaving game: ${gameId}`);
   const game = await gameService.leaveGame(gameId, user);
   await userService.updateUser(user, { game: null });

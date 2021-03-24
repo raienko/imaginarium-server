@@ -9,10 +9,12 @@ module.exports = async (gameId) => {
   if (!game) {
     return
   }
+  await gameService.deleteGame(gameId)
   await userService.updateMultiple(game.users, { game: null });
-  await socketService.cancelRoom(gameId);
-  await matchmakingService.removeFromQueue(game.users);
   await socketService.sendRoomMessage(gameId, { type: 'game_canceled' });
-  await socketService.cancelRoom(gameId)
+  await matchmakingService.removeFromQueue(game.users);
+  await socketService.cancelRoom(gameId);
   console.log('Game canceled: ', gameId);
+  const games = await gameService.listGames();
+  console.log('Active games: ', games);
 }
